@@ -1,0 +1,23 @@
+{
+    "name": "upscale/http-server-mock",
+    "description": "HTTP server that responds to recognized requests with static body and headers",
+    "type": "project",
+    "version": "1.0.0",
+    "keywords": ["HTTP", "server", "request", "response", "REST", "RESTful", "API", "mock", "stub", "prototype"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Upscale Software Team",
+            "email": "info@upscalesoftware.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "zendframework/zend-diactoros": "~1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Upscale\\HttpServerMock\\": "src/"
+        }
+    }
+}

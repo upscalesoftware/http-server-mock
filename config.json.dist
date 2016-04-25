@@ -1,0 +1,11 @@
+[
+    {
+        "request": {
+            "method": "GET"
+        },
+        "response": {
+            "headers": {"Content-Type": "text/plain"},
+            "body": "HTTP Server Mock is running!"
+        }
+    }
+]
