@@ -15,7 +15,7 @@ REST API of any complexity can be declared in the configuration with no programm
 
 * Serve static response body and headers for requests with matching properties
 
-* Match requests by the following properties: HTTP method, URI path, URI query params, HTTP headers, body contents
+* Match requests by: HTTP method, URI path, URI query params, HTTP headers, body contents
 
 * Configure requests and responses in the JSON configuration file
 
@@ -32,26 +32,21 @@ REST API of any complexity can be declared in the configuration with no programm
 
 **Installation commands:**
 
-1. Download the source code:
+1. Install the _latest stable version_ to a directory of your choice (say, `/tmp/http-server-mock`):
 
     ```shell
-    cd /tmp
-    curl -sL https://github.com/upscalesoftware/http-server-mock/archive/latest.tar.gz | tar xz
-    cd http-server-mock-latest
+    composer create-project upscale/http-server-mock /tmp/http-server-mock
     ```
 
-2. Install dependencies:
-
-    ```shell
-    php composer.phar install
-    ```
+    **Note:** The instructions above assume the [global Composer installation](https://getcomposer.org/doc/00-intro.md#globally).
+    You might need to replace `composer` with `php composer.phar` for your setup.
 
 
 ## Running the Server
 
-The easiest way to launch the server is via the PHP built-in web server:
+The easiest way to launch the server is via the PHP's built-in web server:
 ```shell
-php -S 127.0.0.1:8080 server.php
+php -S 127.0.0.1:8080 -t /tmp/http-server-mock /tmp/http-server-mock/server.php
 ```
 
 Open [http://127.0.0.1:8080](http://127.0.0.1:8080) in a browser to confirm the server is running.
@@ -63,7 +58,7 @@ The project comes pre-configured to be deployed anywhere under the Document Root
 ## Configuration
 
 The server looks for the configuration file `config.json` in the project root directory.
-If it does not exist, the server falls back to `config.json.dist` provided out of the box.
+If not found, the server falls back to `config.json.dist` provided out of the box.
 The configuration defines rules of matching responses to requests by their properties.
 
 **Configuration format:**
@@ -99,7 +94,7 @@ While useful in some cases, it may bloat the file and create additional formatti
 The configuration supports [references to external sources](http://www.php.net/wrappers), for instance:
 ```json
 {
-    "body": "file://%base_dir%/data/blog/posts/new/response.json"
+    "body": "file://%base_dir%/data/blog/posts/1/response.json"
 }
 ```
 
@@ -112,10 +107,10 @@ For each incoming request the server reads the rules from the configuration file
 Rules are being evaluated against the request one by one in a _declared order_ until the first match is found.
 Once matched successfully, a response from the matched rule is returned and further processing stops.
 
-Rule evaluation is done by checking an incoming request for presence of _all_ of declared request properties.
-In order to match, the request needs to contain _at least_ all of the declared request properties.
-For key-value properties presence of all of the declared values in the request is necessary.
-Presence of additional values not mentioned in the configuration is permitted and has no effect.
+Rule evaluation is done by checking an incoming request for presence of declared request properties.
+In order to match, the request needs to contain matching values for _at least all_ of the properties.
+For key-value properties presence of all of the declared pairs in the request is necessary.
+Presence of additional data not mentioned in the configuration is permitted and has no effect.
 
 **Note:** Rules with specific properties need to precede generic one having the same subset of properties.
 Otherwise, a generic rule will match before evaluation of a specific rule, effectively suppressing the latter.
