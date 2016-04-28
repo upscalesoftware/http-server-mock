@@ -18,13 +18,20 @@ class Rule
     private $response;
 
     /**
+     * @var int
+     */
+    private $responseDelay;
+
+    /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @param int $responseDelay Delay in microseconds (1 second = 1000000 microseconds)
      */
-    public function __construct(ServerRequestInterface $request, ResponseInterface $response)
+    public function __construct(ServerRequestInterface $request, ResponseInterface $response, $responseDelay = 0)
     {
         $this->request = $request;
         $this->response = $response;
+        $this->responseDelay = $responseDelay;
     }
 
     /**
@@ -41,5 +48,15 @@ class Rule
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Retrieve delay duration in microseconds
+     *
+     * @return int
+     */
+    public function getResponseDelay()
+    {
+        return $this->responseDelay;
     }
 }

@@ -38,10 +38,23 @@ class App
         $response = null;
         foreach ($this->config->getRules() as $rule) {
             if ($this->comparator->isEqual($request, $rule->getRequest())) {
+                $this->idle($rule->getResponseDelay());
                 $response = $rule->getResponse();
                 break;
             }
         }
         return $response;
+    }
+
+    /**
+     * Delay program execution for a given duration of time
+     *
+     * @param int $duration Duration in microseconds
+     */
+    protected function idle($duration = 0)
+    {
+        if ($duration > 0) {
+            usleep($duration);
+        }
     }
 }

@@ -3,7 +3,7 @@ HTTP Server Mock for REST API Prototyping
 
 This project implements a HTTP server that responds to recognized requests with static body and headers.
 Virtually any part of a request, including headers, can be configured to influence a response being returned.
-Mapping rules between requests and responses is declared in a JSON configuration file.
+Mapping between requests and responses is declared in a JSON configuration file.
 
 While being a general-purpose server, the project is particularly geared towards REST APIs.
 REST API of any complexity can be declared in the configuration with no programming involved.
@@ -99,6 +99,22 @@ The configuration supports [references to external sources](http://www.php.net/w
 ```
 
 The placeholder `%base_dir%` represents an absolute path to the project root directory.
+
+### Delaying Response
+
+Time needed for a real server to compute a response varies dramatically from one request to another.
+For testing purposes it may be desired to emulate realistic response times for heavyweight operations.
+
+The configuration allows to specify a fixed response delay, for instance:
+```json
+{
+    "response": {
+        "delay": 2000
+    }
+}
+```
+
+The delay duration is in milliseconds (1 second = 1000 milliseconds).
 
 
 ## Request Handling Algorithm

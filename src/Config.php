@@ -51,6 +51,7 @@ class Config
         'reason'    => ResponseFactory::REASON_AUTO,
         'headers'   => [],
         'body'      => '',
+        'delay'     => 0,
     ];
 
     /**
@@ -111,9 +112,20 @@ class Config
                 $responseInfo['reason']
             );
 
-            $result[] = new Config\Rule($request, $response);
+            $result[] = new Config\Rule($request, $response, $this->convertMilliToMicro($responseInfo['delay']));
         }
         return $result;
+    }
+
+    /**
+     * Convert a number from milli- to micro- units
+     *
+     * @param int $value
+     * @return int
+     */
+    protected function convertMilliToMicro($value)
+    {
+        return $value * 1000;
     }
 
     /**
