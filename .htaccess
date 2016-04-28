@@ -1,2 +1,6 @@
+#SetEnv HTTP_SERVER_MOCK_CONFIG_FILE /path/to/config.json
+#SetEnv HTTP_SERVER_MOCK_CONFIG_TYPE json
+#SetEnv HTTP_SERVER_MOCK_CONFIG_TYPE Upscale\HttpServerMock\Config\Syntax\Json
+
 RewriteEngine On
 RewriteRule .* server.php [L]

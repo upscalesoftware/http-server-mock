@@ -2,26 +2,31 @@
 
 namespace Upscale\HttpServerMock;
 
+use Zend\Diactoros\Response;
+use Zend\Diactoros\Server;
+use Zend\Diactoros\ServerRequestFactory;
+
 try {
     $autoloadScript = __DIR__ . '/vendor/autoload.php';
     if (!file_exists($autoloadScript)) {
-        throw new \RuntimeException('Application is not installed. Please run "composer install".');
+        throw new \RuntimeException('Installation is incomplete. Please run "composer install".');
     }
     require $autoloadScript;
 
-    $request = \Zend\Diactoros\ServerRequestFactory::fromGlobals($_SERVER);
-    $response = new \Zend\Diactoros\Response('php://memory', 400, ['Content-Type' => 'text/plain']);
+    $request = ServerRequestFactory::fromGlobals();
 
-    try {
-        $configStream = new \Zend\Diactoros\Stream(__DIR__ . '/config.json');
-    } catch (\Exception $e) {
-        $configStream = new \Zend\Diactoros\Stream(__DIR__ . '/config.json.dist');
-    }
+    $configFile = ServerRequestFactory::get('HTTP_SERVER_MOCK_CONFIG_FILE', $request->getServerParams());
+    $configType = ServerRequestFactory::get('HTTP_SERVER_MOCK_CONFIG_TYPE', $request->getServerParams(), 'json');
+
+    $configFileChoices = $configFile ? [$configFile] : [__DIR__ . '/config.json', __DIR__ . '/config.json.dist'];
+
+    $configFallback = new Config\Fallback();
+    $configStream = $configFallback->getFirstReadableStream($configFileChoices);
     $configSource = new Config\Source\Stream($configStream);
 
     $placeholders = [
         '%base_dir%' => __DIR__,
-        '%base_url_path%' => dirname($request->getServerParams()['SCRIPT_NAME']),
+        '%base_url_path%' => dirname(ServerRequestFactory::get('SCRIPT_NAME', $request->getServerParams())),
     ];
     $configSource = new Config\Source\Decorator\SubstringSubstitution($configSource, $placeholders);
 
@@ -29,12 +34,18 @@ try {
     $requestFactory = new RequestFactory($request, $streamFactory);
     $responseFactory = new ResponseFactory($streamFactory);
 
-    $config = new Config($configSource, new Config\Syntax\Json(), $requestFactory, $responseFactory);
+    $configParserFactory = new Config\Syntax\ParserFactory();
+    $configParser = $configParserFactory->create($configType);
+
+    $config = new Config($configSource, $configParser, $requestFactory, $responseFactory);
 
     $app = new App($config, new Request\Comparator\Generic());
 
-    $server = new \Zend\Diactoros\Server([$app, 'handle'], $request, $response);
+    $responseNotFound = new Response('php://memory', 400, ['Content-Type' => 'text/plain']);
+
+    $server = new Server([$app, 'handle'], $request, $responseNotFound);
     $server->listen();
+
 } catch (\Exception $e) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
     header('Content-Type: text/plain');
