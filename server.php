@@ -13,10 +13,11 @@ try {
     $response = new \Zend\Diactoros\Response('php://memory', 400, ['Content-Type' => 'text/plain']);
 
     try {
-        $configSource = new Config\Source\Stream(__DIR__ . '/config.json');
+        $configStream = new \Zend\Diactoros\Stream(__DIR__ . '/config.json');
     } catch (\Exception $e) {
-        $configSource = new Config\Source\Stream(__DIR__ . '/config.json.dist');
+        $configStream = new \Zend\Diactoros\Stream(__DIR__ . '/config.json.dist');
     }
+    $configSource = new Config\Source\Stream($configStream);
 
     $placeholders = [
         '%base_dir%' => __DIR__,

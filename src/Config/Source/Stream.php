@@ -12,11 +12,11 @@ class Stream implements SourceInterface
     private $stream;
 
     /**
-     * @param array $stream
+     * @param StreamInterface $stream
      */
-    public function __construct($stream)
+    public function __construct(StreamInterface $stream)
     {
-        $this->stream = new \Zend\Diactoros\Stream($stream, 'r');
+        $this->stream = $stream;
     }
 
     /**
