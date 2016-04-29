@@ -13,7 +13,7 @@ try {
     }
     require $autoloadScript;
 
-    $request = ServerRequestFactory::fromGlobals();
+    $request = ServerRequestFactory::fromGlobals($_SERVER + $_ENV);
 
     $configFile = ServerRequestFactory::get('HTTP_SERVER_MOCK_CONFIG_FILE', $request->getServerParams());
     $configType = ServerRequestFactory::get('HTTP_SERVER_MOCK_CONFIG_TYPE', $request->getServerParams(), 'json');
