@@ -2,7 +2,7 @@
     "name": "upscale/http-server-mock",
     "description": "HTTP server that responds to recognized requests with static body and headers",
     "type": "project",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "keywords": ["HTTP", "server", "REST", "RESTful", "API", "JSON"],
     "license": "Apache-2.0",
     "authors": [
