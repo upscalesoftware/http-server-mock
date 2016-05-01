@@ -46,7 +46,7 @@ REST API of any complexity can be declared in the configuration with no programm
 
 The easiest way to launch the server is via the PHP's built-in web server:
 ```shell
-php -S 127.0.0.1:8080 -t /tmp/http-server-mock /tmp/http-server-mock/server.php
+php -S 127.0.0.1:8080 /tmp/http-server-mock/server.php
 ```
 
 Open [http://127.0.0.1:8080](http://127.0.0.1:8080) in a browser to confirm the server is running.
@@ -57,11 +57,23 @@ The project comes pre-configured to be deployed anywhere under the Document Root
 
 ## Configuration
 
-The server looks for the configuration file `config.json` in the project root directory.
-If not found, the server falls back to `config.json.dist` provided out of the box.
 The configuration defines rules of matching responses to requests by their properties.
+The rules are declared in a JSON file.
 
-**Configuration format:**
+### Configuration Location
+
+The server looks for the configuration file in the following places:
+
+1. Filename in environment variable `HTTP_SERVER_MOCK_CONFIG_FILE`, if defined
+
+2. File `config.json` in the project root directory, if exists
+
+3. File `config.json.dist` provided out of the box
+
+
+### Configuration Format
+
+The JSON configuration file has the following format:
 ```json
 [
     {
@@ -87,7 +99,7 @@ Majority of the properties are scalar. Properties `params`, `headers`, `cookies`
 
 Virtually all of the properties are optional and can be omitted to not participate in matching.
 
-### External Sources
+#### External Sources
 
 In the configuration example above request and response bodies are embedded into the configuration file.
 While useful in some cases, it may bloat the file and create additional formatting challenges, such as escaping.
@@ -101,7 +113,7 @@ The configuration supports [references to external sources](http://www.php.net/w
 
 The placeholder `%base_dir%` represents an absolute path to the project root directory.
 
-### Delaying Response
+#### Delaying Response
 
 Time needed for a real server to compute a response varies dramatically from one request to another.
 For testing purposes it may be desired to emulate realistic response times for heavyweight operations.
