@@ -26,6 +26,7 @@ try {
 
     $placeholders = [
         '%base_dir%' => __DIR__,
+        '%document_root%' => ServerRequestFactory::get('DOCUMENT_ROOT', $request->getServerParams()),
         '%base_url_path%' => dirname(ServerRequestFactory::get('SCRIPT_NAME', $request->getServerParams())),
     ];
     $configSource = new Config\Source\Decorator\SubstringSubstitution($configSource, $placeholders);
