@@ -7,11 +7,7 @@ use Zend\Diactoros\Server;
 use Zend\Diactoros\ServerRequestFactory;
 
 try {
-    $autoloadScript = __DIR__ . '/vendor/autoload.php';
-    if (!file_exists($autoloadScript)) {
-        throw new \RuntimeException('Installation is incomplete. Please run "composer install".');
-    }
-    require $autoloadScript;
+    require __DIR__ . '/autoload.php';
 
     $request = ServerRequestFactory::fromGlobals($_SERVER + $_ENV);
 
