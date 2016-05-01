@@ -29,6 +29,9 @@ class Generic implements ComparatorInterface
         if (!$this->hasAll($subject->getHeaders(), $exemplar->getHeaders())) {
             return false;
         }
+        if (!$this->hasAll($subject->getCookieParams(), $exemplar->getCookieParams())) {
+            return false;
+        }
         return true;
     }
 

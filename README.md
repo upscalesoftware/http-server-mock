@@ -15,7 +15,7 @@ REST API of any complexity can be declared in the configuration with no programm
 
 * Serve static response body and headers for requests with matching properties
 
-* Match requests by: HTTP method, URI path, URI query params, HTTP headers, body contents
+* Match requests by: HTTP method, URI path, URI query params, HTTP headers (including cookies), body contents
 
 * Configure requests and responses in the JSON configuration file
 
@@ -70,6 +70,7 @@ The configuration defines rules of matching responses to requests by their prope
             "path": "/blog/posts",
             "params": {},
             "headers": {"Accept": "application/json", "Content-Type": "application/json"},
+            "cookies": {},
             "body": "{\"title\":\"Hello World!\",\"body\":\"This is my first post!\"}"
         },
         "response": {
@@ -82,7 +83,7 @@ The configuration defines rules of matching responses to requests by their prope
 ]
 ```
 
-Majority of the properties are scalar, `params` and `headers` are key-value pairs.
+Majority of the properties are scalar. Properties `params`, `headers`, `cookies` are key-value pairs.
 
 Virtually all of the properties are optional and can be omitted to not participate in matching.
 

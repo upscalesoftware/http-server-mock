@@ -38,6 +38,7 @@ class RequestFactory
      * @param array $queryParams
      * @param string|null $body
      * @param array $headers
+     * @param array $cookies
      * @return ServerRequestInterface
      */
     public function create(
@@ -45,13 +46,14 @@ class RequestFactory
         $path = self::VALUE_INHERITED,
         array $queryParams = [],
         $body = self::VALUE_INHERITED,
-        array $headers = []
+        array $headers = [],
+        array $cookies = []
     ) {
         $prototypeUri = $this->requestPrototype->getUri();
         $prototypeBody = $this->requestPrototype->getBody();
         $methodVerb = ($method === self::VALUE_INHERITED) ? $this->requestPrototype->getMethod() : $method;
         $uri = ($path === self::VALUE_INHERITED) ? $prototypeUri : $prototypeUri->withPath($path);
         $bodyStream = ($body === self::VALUE_INHERITED) ? $prototypeBody : $this->streamFactory->create($body);
-        return new ServerRequest([], [], $uri, $methodVerb, $bodyStream, $headers, [], $queryParams);
+        return new ServerRequest([], [], $uri, $methodVerb, $bodyStream, $headers, $cookies, $queryParams);
     }
 }

@@ -40,6 +40,7 @@ class Config
         'path'      => RequestFactory::VALUE_INHERITED,
         'params'    => [],
         'headers'   => [],
+        'cookies'   => [],
         'body'      => RequestFactory::VALUE_INHERITED,
     ];
 
@@ -102,7 +103,8 @@ class Config
                 $requestInfo['path'],
                 $requestInfo['params'],
                 $requestInfo['body'],
-                $this->normalizeHeaders($requestInfo['headers'])
+                $this->normalizeHeaders($requestInfo['headers']),
+                $requestInfo['cookies']
             );
 
             $response = $this->responseFactory->create(
