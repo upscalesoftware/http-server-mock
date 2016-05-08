@@ -33,8 +33,9 @@ try {
 
     $configParserFactory = new Config\Syntax\ParserFactory();
     $configParser = $configParserFactory->create($configType);
+    $configRuleFactory = new Config\RuleFactory();
 
-    $config = new Config($configSource, $configParser, $requestFactory, $responseFactory);
+    $config = new Config($configSource, $configParser, $requestFactory, $responseFactory, $configRuleFactory);
 
     $app = new App($config, new Request\Comparator\Generic());
 

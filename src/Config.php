@@ -28,6 +28,11 @@ class Config
     private $responseFactory;
 
     /**
+     * @var Config\RuleFactory
+     */
+    private $ruleFactory;
+
+    /**
      * @var array|Config\Rule[]
      */
     private $rules;
@@ -60,17 +65,20 @@ class Config
      * @param ParserInterface $syntaxParser
      * @param RequestFactory $requestFactory
      * @param ResponseFactory $responseFactory
+     * @param Config\RuleFactory $ruleFactory
      */
     public function __construct(
         SourceInterface $configSource,
         ParserInterface $syntaxParser,
         RequestFactory $requestFactory,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        Config\RuleFactory $ruleFactory
     ) {
         $this->configSource = $configSource;
         $this->syntaxParser = $syntaxParser;
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+        $this->ruleFactory = $ruleFactory;
     }
 
     /**
@@ -114,7 +122,9 @@ class Config
                 $responseInfo['reason']
             );
 
-            $result[] = new Config\Rule($request, $response, $this->convertMilliToMicro($responseInfo['delay']));
+            $responseDelay = $this->convertMilliToMicro($responseInfo['delay']);
+
+            $result[] = $this->ruleFactory->create($request, $response, $responseDelay);
         }
         return $result;
     }
