@@ -1,3 +1,4 @@
-/vendor
+/vendor/
 /composer.lock
-/composer.phar
+composer.phar
+phpunit.xml
