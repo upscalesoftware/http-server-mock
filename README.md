@@ -26,22 +26,22 @@ REST API of any complexity can be declared in the configuration with no programm
 
 ## Installation
 
-**System requirements:**
+### System Requirements
 
 * Interpreter [PHP](http://www.php.net/) 5.5 or newer
 
 * Dependency manager [Composer](https://getcomposer.org/)
 
-**Installation commands:**
+### Installation via CLI
 
-1. Install the _latest stable version_ to a directory of your choice (say, `/tmp/http-server-mock`):
+Install the _latest stable version_ to a directory of your choice (say, `/tmp/http-server-mock`):
 
-    ```shell
-    composer create-project upscale/http-server-mock /tmp/http-server-mock
-    ```
+```shell
+composer create-project --no-dev upscale/http-server-mock /tmp/http-server-mock
+```
 
-    **Note:** The instructions above assume the [global Composer installation](https://getcomposer.org/doc/00-intro.md#globally).
-    You might need to replace `composer` with `php composer.phar` for your setup.
+**Note:** The instructions above assume the [global Composer installation](https://getcomposer.org/doc/00-intro.md#globally).
+You might need to replace `composer` with `php composer.phar` for your setup.
 
 
 ## Running the Server
