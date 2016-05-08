@@ -26,7 +26,7 @@ REST API of any complexity can be declared in the configuration with no programm
 
 **System requirements:**
 
-* Interpreter [PHP](http://www.php.net/) 5.4 or newer
+* Interpreter [PHP](http://www.php.net/) 5.5 or newer
 
 * Dependency manager [Composer](https://getcomposer.org/)
 
