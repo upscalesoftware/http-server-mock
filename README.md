@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/upscalesoftware/http-server-mock.svg?branch=master)](https://travis-ci.org/upscalesoftware/http-server-mock)
+
 HTTP Server Mock for REST API Prototyping
 =========================================
 
