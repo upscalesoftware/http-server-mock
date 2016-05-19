@@ -37,7 +37,19 @@ try {
 
     $config = new Config($configSource, $configParser, $requestFactory, $responseFactory, $configRuleFactory);
 
-    $app = new App($config, new Request\Comparator\Generic());
+    $formatterRegistry = new Body\FormatterRegistry([
+        'binary'    => new Body\Formatter\Binary(),
+        'html'      => new Body\Formatter\Html(),
+        'json'      => new Body\Formatter\Json(),
+        'text'      => new Body\Formatter\Text(),
+        'xml'       => new Body\Formatter\Xml(),
+    ]);
+
+    $comparatorManager = new Request\ComparatorManager($formatterRegistry);
+
+    $formatDetector = new Request\FormatDetector(require __DIR__ . '/mime-types.php', 'binary');
+
+    $app = new App($config, $formatDetector, $comparatorManager);
 
     $responseNotFound = new Response('php://memory', 400, ['Content-Type' => 'text/plain']);
 

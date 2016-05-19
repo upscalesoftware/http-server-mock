@@ -13,18 +13,28 @@ class App
     private $config;
 
     /**
-     * @var Request\ComparatorInterface
+     * @var Request\FormatDetector
      */
-    private $comparator;
+    private $formatDetector;
+
+    /**
+     * @var Request\ComparatorManager
+     */
+    private $comparatorManager;
 
     /**
      * @param Config $config
-     * @param Request\ComparatorInterface $comparator
+     * @param Request\FormatDetector $formatDetector
+     * @param Request\ComparatorManager $comparatorManager
      */
-    public function __construct(Config $config, Request\ComparatorInterface $comparator)
-    {
+    public function __construct(
+        Config $config,
+        Request\FormatDetector $formatDetector,
+        Request\ComparatorManager $comparatorManager
+    ) {
         $this->config = $config;
-        $this->comparator = $comparator;
+        $this->formatDetector = $formatDetector;
+        $this->comparatorManager = $comparatorManager;
     }
 
     /**
@@ -36,8 +46,11 @@ class App
     public function handle(ServerRequestInterface $request)
     {
         $response = null;
+        $detectedFormat = $this->formatDetector->getFormat($request);
         foreach ($this->config->getRules() as $rule) {
-            if ($this->comparator->isEqual($request, $rule->getRequest())) {
+            $format = $rule->getRequestFormat() ?: $detectedFormat;
+            $comparator = $this->comparatorManager->getComparator($format);
+            if ($comparator->isEqual($request, $rule->getRequest())) {
                 $this->idle($rule->getResponseDelay());
                 $response = $rule->getResponse();
                 break;

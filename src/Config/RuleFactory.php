@@ -10,11 +10,12 @@ class RuleFactory
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @param string $requestFormat
      * @param int $responseDelay
      * @return Rule
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, $responseDelay)
+    public function create(ServerRequestInterface $request, ResponseInterface $response, $requestFormat, $responseDelay)
     {
-        return new Rule($request, $response, $responseDelay);
+        return new Rule($request, $response, $requestFormat, $responseDelay);
     }
 }

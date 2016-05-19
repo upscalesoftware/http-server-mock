@@ -47,6 +47,7 @@ class Config
         'headers'   => [],
         'cookies'   => [],
         'body'      => RequestFactory::VALUE_INHERITED,
+        'format'    => null,
     ];
 
     /**
@@ -124,7 +125,7 @@ class Config
 
             $responseDelay = $this->convertMilliToMicro($responseInfo['delay']);
 
-            $result[] = $this->ruleFactory->create($request, $response, $responseDelay);
+            $result[] = $this->ruleFactory->create($request, $response, $requestInfo['format'], $responseDelay);
         }
         return $result;
     }

@@ -2,11 +2,25 @@
 
 namespace Upscale\HttpServerMock\Request\Comparator;
 
+use Upscale\HttpServerMock\Body\FormatterInterface;
 use Upscale\HttpServerMock\Request\ComparatorInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Generic implements ComparatorInterface
 {
+    /**
+     * @var FormatterInterface
+     */
+    protected $formatter;
+
+    /**
+     * @param FormatterInterface $formatter
+     */
+    public function __construct(FormatterInterface $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
     /**
      * @param ServerRequestInterface $subject
      * @param ServerRequestInterface $exemplar
@@ -20,7 +34,7 @@ class Generic implements ComparatorInterface
         if ($subject->getUri()->__toString() != $exemplar->getUri()->__toString()) {
             return false;
         }
-        if ($subject->getBody()->getContents() != $exemplar->getBody()->getContents()) {
+        if (!$this->isContentsEqual($subject->getBody()->getContents(), $exemplar->getBody()->getContents())) {
             return false;
         }
         if (!$this->hasAll($subject->getQueryParams(), $exemplar->getQueryParams())) {
@@ -33,6 +47,17 @@ class Generic implements ComparatorInterface
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param string $subject
+     * @param string $exemplar
+     * @return bool
+     */
+    protected function isContentsEqual($subject, $exemplar)
+    {
+        return ($subject == $exemplar)
+            || ($this->formatter->normalize($subject) == $this->formatter->normalize($exemplar));
     }
 
     /**

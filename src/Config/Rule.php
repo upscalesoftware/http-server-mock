@@ -18,6 +18,11 @@ class Rule
     private $response;
 
     /**
+     * @var string
+     */
+    private $requestFormat;
+
+    /**
      * @var int
      */
     private $responseDelay;
@@ -25,11 +30,17 @@ class Rule
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
+     * @param string $requestFormat
      * @param int $responseDelay Delay in microseconds (1 second = 1000000 microseconds)
      */
-    public function __construct(ServerRequestInterface $request, ResponseInterface $response, $responseDelay = 0)
-    {
+    public function __construct(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $requestFormat,
+        $responseDelay = 0
+    ) {
         $this->request = $request;
+        $this->requestFormat = $requestFormat;
         $this->response = $response;
         $this->responseDelay = $responseDelay;
     }
@@ -40,6 +51,14 @@ class Rule
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestFormat()
+    {
+        return $this->requestFormat;
     }
 
     /**
