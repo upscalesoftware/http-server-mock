@@ -22,6 +22,14 @@ class Generic implements ComparatorInterface
     }
 
     /**
+     * @return FormatterInterface
+     */
+    public function getFormatter()
+    {
+        return $this->formatter;
+    }
+
+    /**
      * @param ServerRequestInterface $subject
      * @param ServerRequestInterface $exemplar
      * @return bool

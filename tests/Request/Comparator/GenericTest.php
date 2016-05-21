@@ -100,6 +100,13 @@ class GenericTest extends TestCase
         return $result;
     }
 
+    public function testGetFormatter()
+    {
+        $actualResult = $this->subject->getFormatter();
+
+        $this->assertSame($this->formatter, $actualResult);
+    }
+
     /**
      * @dataProvider isEqualDataProvider
      */

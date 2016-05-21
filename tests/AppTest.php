@@ -107,6 +107,47 @@ class AppTest extends TestCase
     }
 
     /**
+     * @dataProvider handleFormatDataProvider
+     */
+    public function testHandleFormat($format, $expectedFormat)
+    {
+        $request = $this->getMock(ServerRequestInterface::class, [], [], '', false);
+
+        $response = $this->getMock(ResponseInterface::class, [], [], '', false);
+
+        $rule = $this->getMock(Config\Rule::class, [], [], '', false);
+        $rule->expects($this->once())->method('getRequest')->willReturn($request);
+        $rule->expects($this->once())->method('getRequestFormat')->willReturn($format);
+        $rule->expects($this->once())->method('getResponse')->willReturn($response);
+
+        $this->config->expects($this->once())->method('getRules')->willReturn([$rule]);
+
+        $this->comparator
+            ->expects($this->once())
+            ->method('isEqual')
+            ->with($this->identicalTo($this->request), $this->identicalTo($request))
+            ->willReturn($response);
+
+        $this->comparatorManager
+            ->expects($this->once())
+            ->method('getComparator')
+            ->with($expectedFormat)
+            ->willReturn($this->comparator);
+
+        $actualResult = $this->subject->handle($this->request);
+
+        $this->assertSame($response, $actualResult);
+    }
+
+    public function handleFormatDataProvider()
+    {
+        return [
+            'detected'  => [null, 'fixture'],
+            'explicit'  => ['custom', 'custom'],
+        ];
+    }
+
+    /**
      * @dataProvider idleDataProvider
      * @group slow
      */
