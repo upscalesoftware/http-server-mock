@@ -9,6 +9,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Upscale\HttpServerMock\App;
 use Upscale\HttpServerMock\Config;
 use Upscale\HttpServerMock\Request\ComparatorInterface;
+use Upscale\HttpServerMock\Request\ComparatorManager;
+use Upscale\HttpServerMock\Request\FormatDetector;
 
 class AppTest extends TestCase
 {
@@ -23,6 +25,16 @@ class AppTest extends TestCase
     private $config;
 
     /**
+     * @var FormatDetector|MockObject
+     */
+    private $formatDetector;
+
+    /**
+     * @var ComparatorManager|MockObject
+     */
+    private $comparatorManager;
+
+    /**
      * @var ComparatorInterface|MockObject
      */
     private $comparator;
@@ -35,10 +47,21 @@ class AppTest extends TestCase
     protected function setUp()
     {
         $this->config = $this->getMock(Config::class, [], [], '', false);
-        $this->comparator = $this->getMock(ComparatorInterface::class, [], [], '', false);
+
         $this->request = $this->getMock(ServerRequestInterface::class, [], [], '', false);
 
-        $this->subject = new App($this->config, $this->comparator);
+        $this->formatDetector = $this->getMock(FormatDetector::class, [], [], '', false);
+        $this->formatDetector
+            ->expects($this->once())
+            ->method('getFormat')
+            ->with($this->identicalTo($this->request))
+            ->willReturn('fixture');
+
+        $this->comparator = $this->getMock(ComparatorInterface::class, [], [], '', false);
+        $this->comparatorManager = $this->getMock(ComparatorManager::class, [], [], '', false);
+        $this->comparatorManager->expects($this->atLeastOnce())->method('getComparator')->willReturn($this->comparator);
+
+        $this->subject = new App($this->config, $this->formatDetector, $this->comparatorManager);
     }
 
     /**
@@ -49,9 +72,9 @@ class AppTest extends TestCase
         $this->config->expects($this->once())->method('getRules')->willReturn($rules);
 
         $this->comparator
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('isEqual')
-            ->with($this->request, $this->isInstanceOf(ServerRequestInterface::class))
+            ->with($this->identicalTo($this->request), $this->isInstanceOf(ServerRequestInterface::class))
             ->will(call_user_func_array([$this, 'onConsecutiveCalls'], $ruleMatches));
 
         $actualResult = $this->subject->handle($this->request);
@@ -103,7 +126,7 @@ class AppTest extends TestCase
         $this->comparator
             ->expects($this->once())
             ->method('isEqual')
-            ->with($this->request, $request)
+            ->with($this->identicalTo($this->request), $this->identicalTo($request))
             ->willReturn($response);
 
         $timer = new \PHP_Timer();

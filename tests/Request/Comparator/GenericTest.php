@@ -7,6 +7,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
+use Upscale\HttpServerMock\Body\FormatterInterface;
 use Upscale\HttpServerMock\Request;
 
 class GenericTest extends TestCase
@@ -15,6 +16,11 @@ class GenericTest extends TestCase
      * @var Request\Comparator\Generic
      */
     private $subject;
+
+    /**
+     * @var FormatterInterface|MockObject
+     */
+    private $formatter;
 
     /**
      * @var ServerRequestInterface|MockObject
@@ -54,7 +60,10 @@ class GenericTest extends TestCase
     {
         $this->fixtureRequest = $this->getRequestMock();
 
-        $this->subject = new Request\Comparator\Generic();
+        $this->formatter = $this->getMock(FormatterInterface::class, [], [], '', false);
+        $this->formatter->expects($this->any())->method('normalize')->willReturnCallback('strtolower');
+
+        $this->subject = new Request\Comparator\Generic($this->formatter);
     }
 
     /**
@@ -63,9 +72,8 @@ class GenericTest extends TestCase
      * @param array $properties
      * @return ServerRequestInterface|MockObject
      */
-    protected function getRequestMock(
-        array $properties = []
-    ) {
+    protected function getRequestMock(array $properties = [])
+    {
         $fixtureUri = $this->getMock(UriInterface::class, [], [], '', false);
         $fixtureUri->expects($this->any())->method('__toString')->willReturn('/fixture/test/resource');
 
@@ -141,12 +149,18 @@ class GenericTest extends TestCase
 
     public function isEqualBodyDataProvider()
     {
-        $body = $this->getMock(StreamInterface::class, [], [], '', false);
-        $body->expects($this->once())->method('getContents')->willReturn('Custom contents');
-        $request = $this->getRequestMock(['body' => $body]);
+        $bodyInexactMatch = $this->getMock(StreamInterface::class, [], [], '', false);
+        $bodyInexactMatch->expects($this->once())->method('getContents')->willReturn('FIXTURE CONTENTS');
+
+        $bodyMismatch = $this->getMock(StreamInterface::class, [], [], '', false);
+        $bodyMismatch->expects($this->once())->method('getContents')->willReturn('Custom contents');
+
+        $requestInexactMatch = $this->getRequestMock(['body' => $bodyInexactMatch]);
+        $requestMismatch = $this->getRequestMock(['body' => $bodyMismatch]);
 
         return [
-            'body mismatch' => [$request, false],
+            'body inexact match'    => [$requestInexactMatch, true],
+            'body mismatch'         => [$requestMismatch, false],
         ];
     }
 

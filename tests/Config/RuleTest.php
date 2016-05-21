@@ -30,12 +30,17 @@ class RuleTest extends TestCase
         $this->request = $this->getMock(ServerRequestInterface::class, [], [], '', false);
         $this->response = $this->getMock(ResponseInterface::class, [], [], '', false);
 
-        $this->subject = new Config\Rule($this->request, $this->response, 3500000);
+        $this->subject = new Config\Rule($this->request, $this->response, 'fixture', 3500000);
     }
 
     public function testGetRequest()
     {
         $this->assertSame($this->request, $this->subject->getRequest());
+    }
+
+    public function testGetRequestFormat()
+    {
+        $this->assertSame('fixture', $this->subject->getRequestFormat());
     }
 
     public function testGetResponse()

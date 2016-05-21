@@ -27,10 +27,11 @@ class RuleFactoryTest extends TestCase
         /** @var ResponseInterface|MockObject $response */
         $response = $this->getMock(ResponseInterface::class, [], [], '', false);
 
-        $actualResult = $this->subject->create($request, $response, 3500000);
+        $actualResult = $this->subject->create($request, $response, 'fixture', 3500000);
 
         $this->assertInstanceOf(Config\Rule::class, $actualResult);
         $this->assertSame($request, $actualResult->getRequest());
+        $this->assertSame('fixture', $actualResult->getRequestFormat());
         $this->assertSame($response, $actualResult->getResponse());
         $this->assertSame(3500000, $actualResult->getResponseDelay());
     }

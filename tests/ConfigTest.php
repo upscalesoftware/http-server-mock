@@ -93,7 +93,7 @@ class ConfigTest extends TestCase
 
         $requestFactoryDefaults = [self::VAL_DEFAULT, self::VAL_DEFAULT, [], self::VAL_DEFAULT, [], [], $request];
         $responseFactoryDefaults = ['', [], 200, ResponseFactory::REASON_AUTO, $response];
-        $ruleFactoryDefaults = [$request, $response, 0, $rule];
+        $ruleFactoryDefaults = [$request, $response, null, 0, $rule];
 
         return [
             'no rules' => [
@@ -148,6 +148,13 @@ class ConfigTest extends TestCase
                 [$ruleFactoryDefaults],
                 [$rule]
             ],
+            'rule: request format, response default' => [
+                [['request' => ['format' => 'fixture']]],
+                [$requestFactoryDefaults],
+                [$responseFactoryDefaults],
+                [[$request, $response, 'fixture', 0, $rule]],
+                [$rule]
+            ],
             'rule: request default, response body' => [
                 [['response' => ['body' => 'Test contents']]],
                 [$requestFactoryDefaults],
@@ -180,7 +187,7 @@ class ConfigTest extends TestCase
                 [['response' => ['delay' => 2500]]],
                 [$requestFactoryDefaults],
                 [$responseFactoryDefaults],
-                [[$request, $response, 2500000, $rule]],
+                [[$request, $response, null, 2500000, $rule]],
                 [$rule]
             ],
             'multiple rules' => [
@@ -197,8 +204,8 @@ class ConfigTest extends TestCase
                     ['Resource TWO', [], 200, ResponseFactory::REASON_AUTO, $responseTwo],
                 ],
                 [
-                    [$request, $response, 0, $rule],
-                    [$requestTwo, $responseTwo, 0, $ruleTwo],
+                    [$request, $response, null, 0, $rule],
+                    [$requestTwo, $responseTwo, null, 0, $ruleTwo],
                 ],
                 [
                     $rule,
