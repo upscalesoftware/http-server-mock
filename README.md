@@ -115,6 +115,30 @@ The configuration supports [references to external sources](http://www.php.net/w
 
 The placeholder `%base_dir%` represents an absolute path to the project root directory.
 
+#### Request Format
+
+The server takes into account format of a request body when matching requests.
+Human-readable formats allow reasonable degree of freedom in the syntax to improve contents readability.
+Variations in things like whitespaces and indentation are typically permitted by most formats.
+Request body will be matched successfully regardless of the syntax variation in use.
+
+The format is determined automatically from the request header `Content-Type`.
+Mapping of common MIME types to supported formats is declared in `mime-types.php`.
+Should the automatic detection not suffice, the format can be enforced in the configuration.
+
+The configuration syntax to enforce the body format:
+```json
+{
+    "request": {
+        "format": "json"
+    }
+}
+```
+
+Supported formats: `binary`, `text`, `xml`, `html`, `json`.
+
+The format `binary` is assumed by default.
+
 #### Delaying Response
 
 Time needed for a real server to compute a response varies dramatically from one request to another.
