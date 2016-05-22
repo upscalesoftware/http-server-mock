@@ -9,7 +9,7 @@ class Html extends Xml
      */
     protected function getDomLoadOptions()
     {
-        return parent::getDomLoadOptions() | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD;
+        return parent::getDomLoadOptions() | LIBXML_HTML_NODEFDTD;
     }
 
     /**

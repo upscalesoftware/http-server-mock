@@ -37,7 +37,7 @@ class HtmlTest extends TestCase
             ],
             'invalid' => [
                 ' <body class="page" ',
-                '<body class="page"></body>' . "\n"
+                '<html><body class="page"></body></html>' . "\n"
             ],
         ];
     }
