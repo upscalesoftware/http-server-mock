@@ -167,8 +167,8 @@ In order to match, the request needs to contain matching values for _at least al
 For key-value properties presence of all of the declared pairs in the request is necessary.
 Presence of additional data not mentioned in the configuration is permitted and has no effect.
 
-**Note:** Rules with specific properties need to precede generic one having the same subset of properties.
-Otherwise, a generic rule will match before evaluation of a specific rule, effectively suppressing the latter.
+**Note:** Rules with specific properties need to precede generic ones sharing the same subset of properties.
+Otherwise, a generic rule will match before evaluation of a specific rule occurs, effectively suppressing the latter.
 
 
 ## License
