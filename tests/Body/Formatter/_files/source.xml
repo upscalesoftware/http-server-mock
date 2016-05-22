@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<root>
+    <!-- Test comment -->
+    <node attr="value"><![CDATA[<b>Test</b>]]></node>
+</root>

@@ -5,16 +5,16 @@ namespace Upscale\HttpServerMock\Tests\Body\Formatter;
 use PHPUnit_Framework_TestCase as TestCase;
 use Upscale\HttpServerMock\Body\Formatter;
 
-class JsonTest extends TestCase
+class XmlTest extends TestCase
 {
     /**
-     * @var Formatter\Json
+     * @var Formatter\Xml
      */
     private $subject;
 
     protected function setUp()
     {
-        $this->subject = new Formatter\Json();
+        $this->subject = new Formatter\Xml();
     }
 
     /**
@@ -32,12 +32,12 @@ class JsonTest extends TestCase
         return [
             'empty' => ['', ''],
             'valid' => [
-                file_get_contents(__DIR__ . '/_files/source.json'),
-                file_get_contents(__DIR__ . '/_files/normalized.json'),
+                file_get_contents(__DIR__ . '/_files/source.xml'),
+                file_get_contents(__DIR__ . '/_files/normalized.xml'),
             ],
             'invalid' => [
-                ' { "field" : "value", } ',
-                '{ "field" : "value", }'
+                ' <node attr="value" ',
+                '<node attr="value"'
             ],
         ];
     }

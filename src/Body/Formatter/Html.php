@@ -2,22 +2,32 @@
 
 namespace Upscale\HttpServerMock\Body\Formatter;
 
-class Html extends Text
+class Html extends Xml
 {
     /**
-     * @param string $value
+     * @return int
+     */
+    protected function getDomLoadOptions()
+    {
+        return parent::getDomLoadOptions() | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD;
+    }
+
+    /**
+     * @param \DOMDocument $dom
+     * @param string $source
+     * @return bool
+     */
+    protected function loadDom(\DOMDocument $dom, $source)
+    {
+        return $dom->loadHTML($source, $this->getDomLoadOptions());
+    }
+
+    /**
+     * @param \DOMDocument $dom
      * @return string
      */
-    public function normalize($value)
+    protected function saveDom(\DOMDocument $dom)
     {
-        $dom = new \DOMDocument();
-        $dom->preserveWhiteSpace = false;
-        if ($dom->loadHTML($value)) {
-            $result = $dom->saveHTML();
-            if ($result !== false) {
-                return $result;
-            }
-        }
-        return parent::normalize($value);
+        return $dom->saveHTML();
     }
 }
