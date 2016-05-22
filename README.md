@@ -8,7 +8,7 @@ Virtually any part of a request, including headers, can be configured to influen
 Mapping between requests and responses is declared in a JSON configuration file.
 
 While being a general-purpose server, the project is particularly geared towards REST APIs.
-REST API of any complexity can be declared in the configuration with no programming involved.
+Operational fake API server can be stood up in a matter of minutes.
 
 
 ## Features
