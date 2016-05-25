@@ -6,11 +6,13 @@ return [
     'text/x-json'               => 'json',
     'application/json'          => 'json',
     'application/x-json'        => 'json',
+    'application/vnd.api+json'  => 'json',
     // XML
     'text/xml'                  => 'xml',
     'application/xml'           => 'xml',
     'application/xhtml+xml'     => 'xml',
     'application/rss+xml'       => 'xml',
+    'application/soap+xml'      => 'xml',
     'image/svg+xml'             => 'xml',
     // HTML
     'text/html'                 => 'html',
