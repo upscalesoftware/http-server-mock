@@ -3,7 +3,7 @@
 HTTP Server Mock for REST API Prototyping
 =========================================
 
-This project implements a HTTP server that responds to recognized requests with static body and headers.
+This project implements an HTTP server that responds to recognized requests with static body and headers.
 Virtually any part of a request, including headers, can be configured to influence a response being returned.
 Mapping between requests and responses is declared in a JSON configuration file.
 
