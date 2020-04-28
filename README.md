@@ -28,7 +28,7 @@ Operational fake API server can be stood up in a matter of minutes.
 
 ### System Requirements
 
-* Interpreter [PHP](http://www.php.net/) 5.5 or newer
+* Interpreter [PHP](http://www.php.net/) 5.6 or newer
 
 * Dependency manager [Composer](https://getcomposer.org/)
 
