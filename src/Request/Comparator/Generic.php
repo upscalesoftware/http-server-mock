@@ -48,7 +48,7 @@ class Generic implements ComparatorInterface
         if (!$this->hasAll($subject->getQueryParams(), $exemplar->getQueryParams())) {
             return false;
         }
-        if (!$this->hasAll($subject->getHeaders(), $exemplar->getHeaders())) {
+        if (!$this->hasAll(array_change_key_case($subject->getHeaders(), CASE_LOWER), array_change_key_case($exemplar->getHeaders(), CASE_LOWER))) {
             return false;
         }
         if (!$this->hasAll($subject->getCookieParams(), $exemplar->getCookieParams())) {
