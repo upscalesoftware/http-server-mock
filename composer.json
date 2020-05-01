@@ -22,5 +22,10 @@
         "psr-4": {
             "Upscale\\HttpServerMock\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Upscale\\HttpServerMock\\Tests\\": "tests/"
+        }
     }
 }
