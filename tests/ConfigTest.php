@@ -136,7 +136,7 @@ class ConfigTest extends TestCase
             ],
             'rule: request headers, response default' => [
                 [['request' => ['headers' => ['X-Test' => __CLASS__]]]],
-                [[self::VAL_DEFAULT, self::VAL_DEFAULT, [], self::VAL_DEFAULT, ['x-test' => __CLASS__], [], $request]],
+                [[self::VAL_DEFAULT, self::VAL_DEFAULT, [], self::VAL_DEFAULT, ['X-Test' => __CLASS__], [], $request]],
                 [$responseFactoryDefaults],
                 [$ruleFactoryDefaults],
                 [$rule]

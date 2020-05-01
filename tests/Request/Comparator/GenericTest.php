@@ -211,15 +211,21 @@ class GenericTest extends TestCase
             'Content-Type'  => ['text/html'],
             'Accept'        => ['application/json', 'application/xml'],
         ];
+        $headersInexact = [
+            'Content-type'  => ['application/json'],
+            'accept'        => ['application/json', 'application/xml'],
+        ];
 
         $requestSubset = $this->getRequestMock(['headers' => $headersSubset]);
         $requestSuperset = $this->getRequestMock(['headers' => $headersSuperset]);
         $requestMismatch = $this->getRequestMock(['headers' => $headersMismatch]);
+        $requestInexact = $this->getRequestMock(['headers' => $headersInexact]);
 
         return [
             'headers subset'    => [$requestSubset, false],
             'headers superset'  => [$requestSuperset, true],
             'headers mismatch'  => [$requestMismatch, false],
+            'headers inexact'   => [$requestInexact, true],
         ];
     }
 

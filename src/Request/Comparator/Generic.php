@@ -48,7 +48,7 @@ class Generic implements ComparatorInterface
         if (!$this->hasAll($subject->getQueryParams(), $exemplar->getQueryParams())) {
             return false;
         }
-        if (!$this->hasAll(array_change_key_case($subject->getHeaders(), CASE_LOWER), array_change_key_case($exemplar->getHeaders(), CASE_LOWER))) {
+        if (!$this->hasAll($this->normalize($subject->getHeaders()), $this->normalize($exemplar->getHeaders()))) {
             return false;
         }
         if (!$this->hasAll($subject->getCookieParams(), $exemplar->getCookieParams())) {
@@ -81,5 +81,14 @@ class Generic implements ComparatorInterface
             }
         }
         return true;
+    }
+
+    /**
+     * @param array $pairs
+     * @return array
+     */
+    protected function normalize(array $pairs)
+    {
+        return array_change_key_case($pairs, CASE_LOWER);
     }
 }

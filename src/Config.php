@@ -112,7 +112,7 @@ class Config
                 $requestInfo['path'],
                 $requestInfo['params'],
                 $requestInfo['body'],
-                $this->normalizeHeaders($requestInfo['headers']),
+                $requestInfo['headers'],
                 $requestInfo['cookies']
             );
 
@@ -139,19 +139,5 @@ class Config
     protected function convertMilliToMicro($value)
     {
         return $value * 1000;
-    }
-
-    /**
-     * @param array $headers
-     * @return array
-     * @see \Zend\Diactoros\MessageTrait::filterHeaders
-     */
-    protected function normalizeHeaders(array $headers)
-    {
-        $result = [];
-        foreach ($headers as $key => $value) {
-            $result[strtolower($key)] = $value;
-        }
-        return $result;
     }
 }
