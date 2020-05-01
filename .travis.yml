@@ -8,7 +8,7 @@ php:
   - 7.3
 
 install:
-  - composer install --no-interaction --prefer-source
+  - composer install -n
 
 script:
   - vendor/bin/phpunit -c tests/phpunit.xml.dist
