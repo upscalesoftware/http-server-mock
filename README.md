@@ -1,6 +1,4 @@
-[![Build Status](https://api.travis-ci.org/upscalesoftware/http-server-mock.svg?branch=master)](https://travis-ci.org/upscalesoftware/http-server-mock)
-
-HTTP Server Mock for REST API Prototyping
+HTTP Server Mock for REST API Prototyping [![Build Status](https://api.travis-ci.org/upscalesoftware/http-server-mock.svg?branch=master)](https://travis-ci.org/upscalesoftware/http-server-mock)
 =========================================
 
 This project implements an HTTP server that responds to recognized requests with static body and headers.
