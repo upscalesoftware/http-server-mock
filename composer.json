@@ -2,7 +2,7 @@
     "name": "upscale/http-server-mock",
     "description": "HTTP server that responds to recognized requests with static body and headers",
     "type": "project",
-    "version": "5.0.0",
+    "version": "5.0.1",
     "keywords": ["HTTP", "server", "REST", "RESTful", "API", "JSON", "mock", "fake", "prototype", "prototyping"],
     "homepage": "https://github.com/upscalesoftware/http-server-mock",
     "license": "Apache-2.0",
