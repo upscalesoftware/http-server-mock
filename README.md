@@ -171,4 +171,6 @@ Otherwise, a generic rule will match before evaluation of a specific rule occurs
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+Copyright © Upscale Software. All rights reserved.
+
+Licensed under the [Apache License, Version 2.0](https://github.com/upscalesoftware/http-server-mock/blob/master/LICENSE.txt).

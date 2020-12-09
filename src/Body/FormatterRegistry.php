@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Copyright © Upscale Software. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
 namespace Upscale\HttpServerMock\Body;
 
 class FormatterRegistry
